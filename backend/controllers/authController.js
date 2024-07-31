@@ -1,14 +1,12 @@
 const User = require("../models/UserModel");
 const bcrypt=require('bcryptjs')
-const errorHandler= require("../utils/error")
-const dotenv = require('dotenv')
-dotenv.config();
+const {errorHandler}= require("../utils/error")
 const jwt=require('jsonwebtoken')
 
 const signup=async(req,res,next)=>{
   const {username,email,password}=req.body;
   const hashedPassword=bcrypt.hashSync(password,10)
-  const newUser =await User.create({username,email,password:hashedPassword})
+  const newUser =await User.create({username,email,password:hashedPassword}) 
   try{
     res.status(201).json({
       newUser,
@@ -20,10 +18,10 @@ const signup=async(req,res,next)=>{
   }
   
 
-}
+} 
 
 const signin=async(req,res,next)=>{
-  const {email,password}=req.body
+  const {email,password}=req.body;
 
   try {
     const validUser= await User.findOne({email})
@@ -32,12 +30,10 @@ const signin=async(req,res,next)=>{
     if(!validPassword) return next(errorHandler(401,"wrong credentials"))
 
 
-    const user=await  User.findOne({email}).populate("password").exec()
-
       const token=jwt.sign({id:validUser._id},"secret",{
-        expiresIn:'32d'
+        expiresIn:'3d'
       });
-      res.cookie('access_token',token,{httpOnly:true}).status(200).json(user)
+      res.cookie('access_token',token,{httpOnly:true}).status(200).json(validUser)
     
   } catch (error) {
     next(error)

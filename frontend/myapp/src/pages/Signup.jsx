@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
-import {Link } from "react-router-dom"
+import {Link , useNavigate} from "react-router-dom"
 import axios from "axios"
 
 function Signup() {
+  const navigate=useNavigate()
   const[username,setUsername]=useState('')
   const[email,setEmail]=useState('')
   const[password,setPassword]=useState('')
@@ -27,6 +28,7 @@ function Signup() {
         password
             }
         const res=   await axios.post("http://localhost:3000/api/auth/signup",data)
+        navigate('/signin')
         console.log(res)
            setLoading(false)
            if(res.success==false){
@@ -78,7 +80,7 @@ function Signup() {
     </form>
     <div className='flex gap-2 mt-5'>
       <p>Have an account?</p>
-      <Link to='/sign-in'>
+      <Link to='/signin'>
         <span className='text-blue-500'>Sign in</span>
       </Link>
     </div>
