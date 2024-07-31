@@ -63,8 +63,8 @@ const[password,setPassword]=useState('')
         <span className='text-blue-500'>Sign up</span>
       </Link>
     </div>
-    <p className='text-red-700 mt-5'>
-      
+    <p className='text-red-800 font-extrabold'>
+      {error&&"something went wrong"}
     </p>
   </div>
   )
