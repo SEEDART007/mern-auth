@@ -29,7 +29,7 @@ function Signup() {
             }
         const res=   await axios.post("http://localhost:3000/api/auth/signup",data)
         navigate('/signin')
-        console.log(res)
+     
            setLoading(false)
            if(res.success==false){
             setError(true)

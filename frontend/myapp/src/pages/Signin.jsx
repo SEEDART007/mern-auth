@@ -3,6 +3,7 @@ import {Link,useNavigate } from "react-router-dom"
 import axios from 'axios'
 import { signInFailure,signInSuccess,signInStart } from '../redux/user/userSlice'
 import { useDispatch, useSelector } from 'react-redux'
+import OAuth from '../components/OAuth'
 
 function Signin() {
   const {loading,error,currentUser}=useSelector((state)=>state.user)
@@ -24,6 +25,7 @@ const[password,setPassword]=useState('')
       dispatch(signInSuccess(res))
 
       console.log(res)
+      
       
     } catch (error) {
      dispatch(signInFailure(error))
@@ -49,12 +51,14 @@ const[password,setPassword]=useState('')
         onChange={(e)=>setPassword(e.target.value)}
       
       />
+       
       <button
         
         className='bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80'
       >
       SUBMIT
       </button>
+      <OAuth/>
      
     </form>
     <div className='flex gap-2 mt-5'>
@@ -64,7 +68,7 @@ const[password,setPassword]=useState('')
       </Link>
     </div>
     <p className='text-red-800 font-extrabold'>
-      {error&&"something went wrong"}
+      {error && "something went wrong"}
     </p>
   </div>
   )

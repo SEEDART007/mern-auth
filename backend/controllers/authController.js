@@ -39,6 +39,33 @@ const signin=async(req,res,next)=>{
     next(error)
   }
 }
+
+const google=async(req,res,next)=>{
+  try {
+    const email=req.body.email;
+    const user= await User.findOne({email})
+    if(user){
+      const token=jwt.sign({id:user._id},"secret",{
+        expiresIn:'2d'
+      })
+      res.cookie('access_token',token,{httpOnly:true}).status(200).json(user)
+
+    }else{
+      const generatePassword=Math.random().toString(36).slice(-8)
+      const hashedPassword=bcrypt.hashSync(generatePassword,10)
+      const newUser=await User.create({username:req.body.name.split(" ").join("").toLowerCase(),email:req.body.email,password:hashedPassword,profilePic:req.body.photo})
+      const token=jwt.sign({id:newUser._id},"secret",{
+        expiresIn:'2d'
+      })
+      res.cookie('access_token',token,{httpOnly:true}).status(201).json(newUser)
+
+    }
+  } catch (error) {
+   
+next(error)
+    
+  }
+}
  
 
 
@@ -47,4 +74,4 @@ const signin=async(req,res,next)=>{
 
 
 
-module.exports={signup,signin}
+module.exports={signup,signin,google}

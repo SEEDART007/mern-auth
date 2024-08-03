@@ -13,10 +13,14 @@ const userSchema= new mongoose.Schema({
     password:{
         type:String,
         required:true,
+    },
+    profilePic:{
+        type:String,
+        default:"https://static.vecteezy.com/system/resources/thumbnails/009/734/564/small_2x/default-avatar-profile-icon-of-social-media-user-vector.jpg"
     }
 },{timestamps:true});
 
 
-const User = mongoose.model('User',userSchema);
+const User = mongoose.model('User',userSchema); 
 
 module.exports= User;
