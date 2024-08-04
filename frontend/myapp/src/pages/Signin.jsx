@@ -23,6 +23,7 @@ const[password,setPassword]=useState('')
         'Content-Type': 'application/json'
       }});
       dispatch(signInSuccess(res))
+      navigate('/profile')
 
       console.log(res)
       

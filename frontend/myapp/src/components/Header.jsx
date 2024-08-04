@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux'
 
 function Header() {
   const {currentUser} = useSelector((state)=>state.user)
-  console.log(currentUser.data)
+
   return (
    <div className='bg-blue-500'>
   <div className='flex justify-between items-center max-h-48'>
@@ -16,9 +16,9 @@ function Header() {
     <Link to='/about'>
         <li>About</li>
         </Link>
-        <Link to='/signin'>
+        <Link to='/profile'>
          { currentUser ? (
-          <li>{currentUser.data.username}</li>
+          <img className='h-10 w-10 object-cover rounded-full' src={currentUser.data.profilePic} alt="" />
          ):(    <li>signin</li>)}
         </Link>
     </ul>
