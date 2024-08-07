@@ -1,7 +1,9 @@
 const User = require("../models/UserModel");
 const bcrypt=require('bcryptjs')
+const dotenv = require('dotenv')
 const {errorHandler}= require("../utils/error")
 const jwt=require('jsonwebtoken')
+dotenv.config();
 
 const signup=async(req,res,next)=>{
   const {username,email,password}=req.body;
@@ -30,7 +32,7 @@ const signin=async(req,res,next)=>{
     if(!validPassword) return next(errorHandler(401,"wrong credentials"))
 
 
-      const token=jwt.sign({id:validUser._id},"secret",{
+      const token=jwt.sign({id:validUser._id},process.env.JWT_SECRET,{
         expiresIn:'3d'
       });
       res.cookie('access_token',token,{httpOnly:true}).status(200).json(validUser)
@@ -45,7 +47,7 @@ const google=async(req,res,next)=>{
     const email=req.body.email;
     const user= await User.findOne({email})
     if(user){
-      const token=jwt.sign({id:user._id},"secret",{
+      const token=jwt.sign({id:user._id},process.env.JWT_SECRET,{
         expiresIn:'2d'
       })
       res.cookie('access_token',token,{httpOnly:true}).status(200).json(user)
@@ -54,7 +56,7 @@ const google=async(req,res,next)=>{
       const generatePassword=Math.random().toString(36).slice(-8)
       const hashedPassword=bcrypt.hashSync(generatePassword,10)
       const newUser=await User.create({username:req.body.name.split(" ").join("").toLowerCase(),email:req.body.email,password:hashedPassword,profilePic:req.body.photo})
-      const token=jwt.sign({id:newUser._id},"secret",{
+      const token=jwt.sign({id:newUser._id},process.env.JWT_SECRET,{
         expiresIn:'2d'
       })
       res.cookie('access_token',token,{httpOnly:true}).status(201).json(newUser)

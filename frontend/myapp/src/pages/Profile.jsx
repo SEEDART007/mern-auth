@@ -44,7 +44,7 @@ function Profile() {
       <h1 className='text-4xl font-semibold text-center mt-5'>Profile</h1>
       <form className=' flex flex-col gap-4 '>
         <input type="file" ref={fileRef}hidden accept='image/*'  onChange={(e)=>setImage(e.target.files[0])}/>
-        <img onClick={()=>fileRef.current.click()} className='w-24 h-24 cursor-pointer rounded-full object-cover self-center mt-6' src={currentUser.data.profilePic} alt="" />
+        <img onClick={()=>fileRef.current.click()} className='w-24 h-24 cursor-pointer rounded-full object-cover self-center mt-6' src={formData.profilePic||currentUser.data.profilePic} alt="" />
         {/* <h1> {imagePercent}% image is uploaded</h1> */}
         <p>{
           imageError ? (<h1 className='text-red-700'>Error while uploading image</h1>):imagePercent>0&&imagePercent<100 ? (<h1 className='text-blue-600'>Uploading: {imagePercent} %</h1>):(<h1 className='text-green-900' >Uploaded Successfully</h1>)
